@@ -1,13 +1,14 @@
 'use strict';
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
-
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
-    entry: "./app.jsx",
+    entry: "./frontend/app.jsx",
     output: {
-        filename: 'bundle.js'
+        filename: './public/bundle.js',
+        path:path.resolve(__dirname, 'public')
     },
 
     watch: NODE_ENV == 'development',
@@ -32,3 +33,15 @@ module.exports = {
         }]
     }
 };
+
+if (NODE_ENV == 'production'){
+    module.exports.plugins.push(
+        new webpack.optimize.UglifyJSPlugin({
+            compress:{
+                warnings: false,
+                drop_console: true,
+                unsafe: true
+            }
+        })
+    )
+}
