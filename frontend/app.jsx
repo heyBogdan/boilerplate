@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 
 class Hello extends React.Component {
     render(){
-        return <h1>Hello world from {this.props.author}</h1>
+        return <h1>Hello world from 1 {this.props.author}</h1>
     }
 }
 

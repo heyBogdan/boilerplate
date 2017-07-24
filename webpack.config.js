@@ -15,6 +15,12 @@ module.exports = {
 
     devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : false,
 
+    // devServer: {
+    //     proxy: {
+    //         '*':'http://localhost:8080/public'
+    //     }
+    // },
+
     plugins:[
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
@@ -32,6 +38,7 @@ module.exports = {
             ]
         }]
     }
+
 };
 
 if (NODE_ENV == 'production'){
