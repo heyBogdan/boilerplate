@@ -1,2 +1,2 @@
 # boilerplate
-My simple development and production boolerplate for React, Redux, Webpack  
+My simple development and production boilerplate for React, Redux, Webpack  
