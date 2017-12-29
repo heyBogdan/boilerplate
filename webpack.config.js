@@ -1,54 +1,59 @@
-'use strict';
 
-const NODE_ENV = process.env.NODE_ENV || 'development';
-const webpack = require('webpack');
-const path = require('path');
+const NODE_ENV = process.env.NODE_ENV || "development";
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
-    entry: "./frontend/app.jsx",
+    entry: "./src/index.jsx",
+
     output: {
-        filename: './public/bundle.js',
-        path:path.resolve(__dirname, 'public')
+        path: path.join(__dirname, "build"),
+        filename: "bundle.js",
+        publicPath: "/static/",
     },
 
-    watch: NODE_ENV == 'development',
+    watch: NODE_ENV === "development",
 
-    devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : false,
+    devtool: NODE_ENV === "development" ? "cheap-inline-module-source-map" : false,
 
-    // devServer: {
-    //     proxy: {
-    //         '*':'http://localhost:8080/public'
-    //     }
-    // },
-
-    plugins:[
+    plugins: [
         new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV)
-        })
+            NODE_ENV: JSON.stringify(NODE_ENV),
+        }),
     ],
 
-    module:{
-        rules:[{
-            test:/\.jsx$/,
-            exclude: /(node_modules)/,
-            use:[
-                {
-                  loader:'babel-loader'  
-                }
-            ]
-        }]
-    }
+    module: {
+        rules: [
+            {
+                test: /\.jsx$/,
+                exclude: /(node_modules)/,
+                use: [
+                    {
+                        loader: "babel-loader",
+                    },
+                ],
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
+            },
+            {
+                test: /\.scss$/,
+                use: ["style-loader", "css-loader", "sass-loader"],
+            },
+        ],
+    },
 
 };
 
-if (NODE_ENV == 'production'){
+if (NODE_ENV === "production") {
     module.exports.plugins.push(
         new webpack.optimize.UglifyJSPlugin({
-            compress:{
+            compress: {
                 warnings: false,
                 drop_console: true,
-                unsafe: true
-            }
-        })
-    )
+                unsafe: true,
+            },
+        }),
+    );
 }
