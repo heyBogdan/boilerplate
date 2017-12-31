@@ -1,9 +1,9 @@
 
-const NODE_ENV = process.env.NODE_ENV || "development";
 const webpack = require("webpack");
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
-module.exports = {
+const common = {
     entry: "./src/index.jsx",
 
     output: {
@@ -12,29 +12,12 @@ module.exports = {
         publicPath: "/static/",
     },
 
-    watch: NODE_ENV === "development",
-
-    devtool: NODE_ENV === "development" ? "cheap-inline-module-source-map" : false,
-
-    plugins: [
-        new webpack.DefinePlugin({
-            NODE_ENV: JSON.stringify(NODE_ENV),
-        }),
-    ],
-
     module: {
         rules: [
             {
                 test: /\.jsx$/,
                 exclude: /(node_modules)/,
-                use: [
-                    {
-                        loader: "babel-loader",
-                    },
-                    {
-                        loader: "eslint-loader",
-                    },
-                ],
+                use: ["babel-loader", "eslint-loader"],
             },
             {
                 test: /\.css$/,
@@ -49,14 +32,40 @@ module.exports = {
 
 };
 
-if (NODE_ENV === "production") {
-    module.exports.plugins.push(
-        new webpack.optimize.UglifyJSPlugin({
+const devConfig = {
+    devtool: "cheap-inline-module-source-map",
+    devServer: {
+        port: 9000,
+    },
+};
+
+const productionConfig = {
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false,
                 drop_console: true,
                 unsafe: true,
             },
         }),
+        // new HtmlWebpackPlugin({
+        //     title: "User app",
+        // }),
+    ],
+};
+
+module.exports = (env) => {
+    if (env === "production") {
+        return Object.assign(
+            {},
+            common,
+            productionConfig,
+        );
+    }
+
+    return Object.assign(
+        {},
+        common,
+        devConfig,
     );
-}
+};
