@@ -11,7 +11,9 @@ const common = {
         filename: "bundle.js",
         publicPath: "/static/",
     },
-
+    resolve: {
+        extensions: ["*", ".webpack.js", ".web.js", ".js", ".jsx", ".json"],
+    },
     module: {
         rules: [
             {
@@ -36,6 +38,7 @@ const devConfig = {
     devtool: "cheap-inline-module-source-map",
     devServer: {
         port: 9000,
+        historyApiFallback: true,
     },
 };
 

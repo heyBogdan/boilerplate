@@ -5,7 +5,10 @@ module.exports = {
         "node": true
     },
     "rules": {
-        "quotes": ["error", "double"],
-        "indent": ["error", 4]
+        "react/jsx-indent": ["warn", 4],
+        "react/forbid-prop-types": ["warn", {"forbid": ["any"]}],
+        "quotes": ["warn", "double"],
+        "indent": ["warn", 4],
+        "indent-size": [true, 2],
     }
 };
